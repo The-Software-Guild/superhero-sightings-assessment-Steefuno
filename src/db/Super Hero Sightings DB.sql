@@ -1,8 +1,8 @@
 -- reconstruct the database
-DROP DATABASE IF EXISTS SuperHeroSightingsDB;
-CREATE DATABASE SuperHeroSightingsDB;
+DROP DATABASE IF EXISTS SuperheroSightingsDB;
+CREATE DATABASE SuperheroSightingsDB;
 
-USE SuperHeroSightingsDB;
+USE SuperheroSightingsDB;
 
 CREATE TABLE location(
 	locationId INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -50,8 +50,10 @@ CREATE TABLE heroAffiliatedWithOrganization(
 );
 
 CREATE TABLE heroSightedAt(
+	sightingId INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	heroId INT UNSIGNED NOT NULL,
     locationId INT UNSIGNED NOT NULL,
+    PRIMARY KEY (sightingId),
     CONSTRAINT FOREIGN KEY fk_heroSightedAt_hero(heroId)
 		REFERENCES hero(heroId),
     CONSTRAINT FOREIGN KEY fk_heroSightedAt_location(locationId)
