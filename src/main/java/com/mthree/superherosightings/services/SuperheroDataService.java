@@ -17,6 +17,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
@@ -32,9 +33,8 @@ public class SuperheroDataService {
      * @return a list of hero names and ids
      * @throws DataAccessException 
      */
-    public List<IdAndName> getHeroes() throws DataAccessException {
-        
-    }
+    @Transactional
+    public List<IdAndName> getHeroes() throws DataAccessException {}
     
     /**
      * Gets a hero
@@ -42,6 +42,7 @@ public class SuperheroDataService {
      * @return the hero's data
      * @throws DataAccessException 
      */
+    @Transactional
     public Hero getHero(int heroId) throws DataAccessException {}
     
     /**
@@ -49,20 +50,26 @@ public class SuperheroDataService {
      * @param hero the hero's data
      * @throws DataAccessException 
      */
+    @Transactional
     public void addHero(Hero hero) throws DataAccessException {}
     
     /**
      * Edits a hero
-     * @param hero the hero's new data
+     * @param hero the hero's old data
+     * @param name the hero's new name
+     * @param description the hero's new description
+     * @param powerId the hero's new power's id
      * @throws DataAccessException 
      */
-    public void editHero(Hero hero) throws DataAccessException {}
+    @Transactional
+    public void editHero(Hero hero, String name, String description, int powerId) throws DataAccessException {}
     
     /**
      * Deletes a hero
      * @param heroId the hero's id
      * @throws DataAccessException 
      */
+    @Transactional
     public void deleteHero(int heroId) throws DataAccessException {}
     
     /**
@@ -70,6 +77,7 @@ public class SuperheroDataService {
      * @return a list of the ids and names
      * @throws DataAccessException 
      */
+    @Transactional
     public List<IdAndName> getPowers() throws DataAccessException {}
     
     /**
@@ -78,6 +86,7 @@ public class SuperheroDataService {
      * @return the power's data
      * @throws DataAccessException 
      */
+    @Transactional
     public Power getPower(int powerId) throws DataAccessException {}
     
     /**
@@ -85,6 +94,7 @@ public class SuperheroDataService {
      * @param power the power's data
      * @throws DataAccessException 
      */
+    @Transactional
     public void addPower(Power power) throws DataAccessException {}
     
     /**
@@ -92,6 +102,7 @@ public class SuperheroDataService {
      * @param power the power's new data
      * @throws DataAccessException 
      */
+    @Transactional
     public void editPower(Power power) throws DataAccessException {}
     
     /**
@@ -99,6 +110,7 @@ public class SuperheroDataService {
      * @param powerId the power's id
      * @throws DataAccessException 
      */
+    @Transactional
     public void deletePower(int powerId) throws DataAccessException {}
     
     /**
@@ -106,6 +118,7 @@ public class SuperheroDataService {
      * @return a list of the ids and names
      * @throws DataAccessException 
      */
+    @Transactional
     public List<IdAndName> getLocations() throws DataAccessException {}
     
     /**
@@ -114,6 +127,7 @@ public class SuperheroDataService {
      * @return the location's data
      * @throws DataAccessException 
      */
+    @Transactional
     public Location getLocation(int locationId) throws DataAccessException {}
     
     /**
@@ -121,20 +135,28 @@ public class SuperheroDataService {
      * @param location the location's data
      * @throws DataAccessException 
      */
+    @Transactional
     public void addLocation(Location location) throws DataAccessException {}
     
     /**
      * Edits a location
-     * @param location the location's new data
+     * @param location the location's old data
+     * @param name the new name
+     * @param description the new description
+     * @param address the new address
+     * @param longitude the new longitude
+     * @param latitude the new latitude
      * @throws DataAccessException 
      */
-    public void editLocation(Location location) throws DataAccessException {}
+    @Transactional
+    public void editLocation(Location location, String name, String description, String address, double latitude, double longitude) throws DataAccessException {}
     
     /**
      * Deletes a location
      * @param locationId the location's id
      * @throws DataAccessException 
      */
+    @Transactional
     public void deleteLocation(int locationId) throws DataAccessException {}
     
     /**
@@ -142,6 +164,7 @@ public class SuperheroDataService {
      * @return a list of the ids and names
      * @throws DataAccessException 
      */
+    @Transactional
     public List<IdAndName> getOrganizations() throws DataAccessException {}
     
     /**
@@ -150,6 +173,7 @@ public class SuperheroDataService {
      * @return the organization's data
      * @throws DataAccessException 
      */
+    @Transactional
     public Organization getOrganization(int organizationId) throws DataAccessException {}
     
     /**
@@ -157,20 +181,26 @@ public class SuperheroDataService {
      * @param organization the organization's data
      * @throws DataAccessException 
      */
+    @Transactional
     public void addOrganization(Organization organization) throws DataAccessException {}
     
     /**
      * Edits a organization
-     * @param organization the organization's new data
+     * @param organization the organization old data
+     * @param name the new name
+     * @param description the new description
+     * @param locationId the new location id
      * @throws DataAccessException 
      */
-    public void editOrganization(Organization organization) throws DataAccessException {}
+    @Transactional
+    public void editOrganization(Organization organization, String name, String description, int locationId) throws DataAccessException {}
     
     /**
      * Deletes a organization
      * @param organizationId the organization's id
      * @throws DataAccessException 
      */
+    @Transactional
     public void deleteOrganization(int organizationId) throws DataAccessException {}
     
     /**
@@ -178,6 +208,7 @@ public class SuperheroDataService {
      * @return a list of the ids and names
      * @throws DataAccessException 
      */
+    @Transactional
     public List<IdAndName> getSightings() throws DataAccessException {}
     
     /**
@@ -186,6 +217,7 @@ public class SuperheroDataService {
      * @return the sighting's data
      * @throws DataAccessException 
      */
+    @Transactional
     public Sighting getSighting(int sightingId) throws DataAccessException {}
     
     /**
@@ -193,6 +225,7 @@ public class SuperheroDataService {
      * @param sighting the sighting's data
      * @throws DataAccessException 
      */
+    @Transactional
     public void addSighting(Sighting sighting) throws DataAccessException {}
     
     /**
@@ -200,6 +233,7 @@ public class SuperheroDataService {
      * @param sighting the sighting's new data
      * @throws DataAccessException 
      */
+    @Transactional
     public void editSighting(Sighting sighting) throws DataAccessException {}
     
     /**
@@ -207,5 +241,6 @@ public class SuperheroDataService {
      * @param sightingId the sighting's id
      * @throws DataAccessException 
      */
+    @Transactional
     public void deleteSighting(int sightingId) throws DataAccessException {}
 }
