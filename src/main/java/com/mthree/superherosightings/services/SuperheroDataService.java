@@ -34,7 +34,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public List<IdAndName> getHeroes() throws DataAccessException {}
+    public List<IdAndName> getHeroes() throws DataAccessException {
+        return dao.getHeroes();
+    }
     
     /**
      * Gets a hero
@@ -43,7 +45,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public Hero getHero(int heroId) throws DataAccessException {}
+    public Hero getHero(int heroId) throws DataAccessException {
+        return dao.getHero(heroId);
+    }
     
     /**
      * Adds a new hero
@@ -51,7 +55,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public void addHero(Hero hero) throws DataAccessException {}
+    public void addHero(Hero hero) throws DataAccessException {
+        dao.addHero(hero);
+    }
     
     /**
      * Edits a hero
@@ -59,7 +65,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public void editHero(Hero hero) throws DataAccessException {}
+    public void editHero(Hero hero) throws DataAccessException {
+        dao.editHero(hero);
+    }
     
     /**
      * Deletes a hero
@@ -67,7 +75,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public void deleteHero(int heroId) throws DataAccessException {}
+    public void deleteHero(int heroId) throws DataAccessException {
+        dao.deleteHero(heroId);
+    }
     
     /**
      * Gets all the powers
@@ -75,7 +85,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public List<IdAndName> getPowers() throws DataAccessException {}
+    public List<IdAndName> getPowers() throws DataAccessException {
+        return dao.getPowers();
+    }
     
     /**
      * Gets a power
@@ -84,7 +96,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public Power getPower(int powerId) throws DataAccessException {}
+    public Power getPower(int powerId) throws DataAccessException {
+        return dao.getPower(powerId);
+    }
     
     /**
      * Adds a new power
@@ -92,7 +106,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public void addPower(Power power) throws DataAccessException {}
+    public void addPower(Power power) throws DataAccessException {
+        dao.addPower(power);
+    }
     
     /**
      * Edits a power
@@ -100,7 +116,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public void editPower(Power power) throws DataAccessException {}
+    public void editPower(Power power) throws DataAccessException {
+        dao.editPower(power);
+    }
     
     /**
      * Deletes a power
@@ -108,7 +126,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public void deletePower(int powerId) throws DataAccessException {}
+    public void deletePower(int powerId) throws DataAccessException {
+        dao.deletePower(powerId);
+    }
     
     /**
      * Gets all the locations
@@ -116,7 +136,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public List<IdAndName> getLocations() throws DataAccessException {}
+    public List<IdAndName> getLocations() throws DataAccessException {
+        return dao.getLocations();
+    }
     
     /**
      * Gets a location
@@ -125,7 +147,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public Location getLocation(int locationId) throws DataAccessException {}
+    public Location getLocation(int locationId) throws DataAccessException {
+        return dao.getLocation(locationId);
+    }
     
     /**
      * Adds a new location
@@ -133,7 +157,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public void addLocation(Location location) throws DataAccessException {}
+    public void addLocation(Location location) throws DataAccessException {
+        dao.addLocation(location);
+    }
     
     /**
      * Edits a location
@@ -141,7 +167,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public void editLocation(Location location) throws DataAccessException {}
+    public void editLocation(Location location) throws DataAccessException {
+        dao.editLocation(location);
+    }
     
     /**
      * Deletes a location
@@ -149,7 +177,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public void deleteLocation(int locationId) throws DataAccessException {}
+    public void deleteLocation(int locationId) throws DataAccessException {
+        dao.deleteLocation(locationId);
+    }
     
     /**
      * Gets all the organizations
@@ -157,7 +187,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public List<IdAndName> getOrganizations() throws DataAccessException {}
+    public List<IdAndName> getOrganizations() throws DataAccessException {
+        return dao.getOrganizations();
+    }
     
     /**
      * Gets a organization
@@ -166,7 +198,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public Organization getOrganization(int organizationId) throws DataAccessException {}
+    public Organization getOrganization(int organizationId) throws DataAccessException {
+        return dao.getOrganization(organizationId);
+    }
     
     /**
      * Adds a new organization
@@ -174,7 +208,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public void addOrganization(Organization organization) throws DataAccessException {}
+    public void addOrganization(Organization organization) throws DataAccessException {
+        dao.addOrganization(organization);
+    }
     
     /**
      * Edits a organization
@@ -182,7 +218,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public void editOrganization(Organization organization) throws DataAccessException {}
+    public void editOrganization(Organization organization) throws DataAccessException {
+        dao.editOrganization(organization);
+    }
     
     /**
      * Deletes a organization
@@ -190,7 +228,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public void deleteOrganization(int organizationId) throws DataAccessException {}
+    public void deleteOrganization(int organizationId) throws DataAccessException {
+        dao.deleteOrganization(organizationId);
+    }
     
     /**
      * Gets all the sightings
@@ -198,7 +238,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public List<IdAndName> getSightings() throws DataAccessException {}
+    public List<IdAndName> getSightings() throws DataAccessException {
+        return dao.getSightings();
+    }
     
     /**
      * Gets a sighting
@@ -207,7 +249,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public Sighting getSighting(int sightingId) throws DataAccessException {}
+    public Sighting getSighting(int sightingId) throws DataAccessException {
+        return dao.getSighting(sightingId);
+    }
     
     /**
      * Adds a new sighting
@@ -215,7 +259,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public void addSighting(Sighting sighting) throws DataAccessException {}
+    public void addSighting(Sighting sighting) throws DataAccessException {
+        dao.addSighting(sighting);
+    }
     
     /**
      * Edits a sighting
@@ -223,7 +269,9 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public void editSighting(Sighting sighting) throws DataAccessException {}
+    public void editSighting(Sighting sighting) throws DataAccessException {
+        dao.editSighting(sighting);
+    }
     
     /**
      * Deletes a sighting
@@ -231,5 +279,7 @@ public class SuperheroDataService {
      * @throws DataAccessException 
      */
     @Transactional
-    public void deleteSighting(int sightingId) throws DataAccessException {}
+    public void deleteSighting(int sightingId) throws DataAccessException {
+        dao.deleteSighting(sightingId);
+    }
 }

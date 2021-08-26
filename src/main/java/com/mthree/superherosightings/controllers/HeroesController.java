@@ -66,14 +66,15 @@ public class HeroesController {
      */
     @PostMapping("addHero")
     public String addHero(HttpServletRequest request) {
-        String name, description, powerName;
+        String name, description;
+        int powerId;
         Hero hero;
         
         name = request.getParameter("name");
         description = request.getParameter("description");
-        powerName = request.getParameter("power");
+        powerId = Integer.parseInt(request.getParameter("powerId"));
         
-        hero = new Hero(-1, name, description, powerName);
+        hero = new Hero(-1, name, description, powerId);
         superheroDataService.addHero(hero);
         
         return "redirect:/getHeroes";
