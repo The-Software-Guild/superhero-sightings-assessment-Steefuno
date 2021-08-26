@@ -97,21 +97,23 @@ public class HeroesController {
     
     /**
      * Receives the data to edit the hero and sends it to the data service
-     * @param hero the hero's data
-     * @param request the data to add to the hero
+     * @param id the hero's id
+     * @param request the data to add to the hero along with the hero id
      * @return a redirect to the hero's info page
      */
     @PostMapping("editHero")
-    public String editHero(Hero hero, HttpServletRequest request) {
+    public String editHero(Integer id, HttpServletRequest request) {
         String name, description;
         int powerId;
+        Hero hero;
         
         name = request.getParameter("name");
         description = request.getParameter("description");
         powerId = Integer.parseInt(request.getParameter("powerId"));
         
-        superheroDataService.editHero(hero, name, description, powerId);
-        return "redirect:/getHero?id=" + hero.getId();
+        hero = new Hero(id, name, description, powerId);
+        superheroDataService.editHero(hero);
+        return "redirect:/getHero?id=" + id;
     }
     
     /**
@@ -121,9 +123,6 @@ public class HeroesController {
      */
     @GetMapping("deleteHero")
     public String deleteHero(Integer id) {
-        int id;
-        
-        id = Integer.parseInt(request.getParameter("id"));
         superheroDataService.deleteHero(id);
         
         return "redirect:/getHeroes";

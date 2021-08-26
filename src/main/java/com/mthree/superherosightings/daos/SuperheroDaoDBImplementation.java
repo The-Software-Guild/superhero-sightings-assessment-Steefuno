@@ -6,6 +6,7 @@
 
 package com.mthree.superherosightings.daos;
 
+import com.mthree.superherosightings.daos.dbmappers.*;
 import com.mthree.superherosightings.models.Hero;
 import com.mthree.superherosightings.models.IdAndName;
 import com.mthree.superherosightings.models.Location;
@@ -13,9 +14,10 @@ import com.mthree.superherosightings.models.Organization;
 import com.mthree.superherosightings.models.Power;
 import com.mthree.superherosightings.models.Sighting;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 
@@ -23,6 +25,23 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 public class SuperheroDaoDBImplementation implements SuperheroDao {
+    final private JdbcTemplate jdbcTemplate;
+    
+    final private static String SELECT_ALL_HERO_NAMES =
+        "SELECT heroId as id, name as name " +
+        "FROM hero " +
+        "ORDER BY heroId "
+    ;
+    
+    /**
+     * Constructs a new SuperheroDaoDBImplementation
+     * @param jdbcTemplate 
+     */
+    @Autowired
+    public SuperheroDaoDBImplementation(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+    
     /**
      * Gets all hero names
      * @return a list of hero names and ids
@@ -30,7 +49,12 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      */
     @Override
     public List<IdAndName> getHeroes() throws DataAccessException {
+        List<IdAndName> heroesList;
         
+        // get all ids
+        heroesList = jdbcTemplate.query(SELECT_ALL_HERO_NAMES, new IdAndNameMapper());
+        
+        return heroesList;
     }
     
     /**

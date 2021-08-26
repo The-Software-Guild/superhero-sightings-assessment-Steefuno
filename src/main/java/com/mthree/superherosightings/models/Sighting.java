@@ -11,5 +11,34 @@ package com.mthree.superherosightings.models;
  * @author Steven
  */
 public class Sighting {
-
+    private int id;
+    private int heroId;
+    private int locationId;
+    
+    public Sighting(int id, int heroId, int locationId) {
+        this.id = id;
+        this.heroId = heroId;
+        this.locationId = locationId;
+    }
+    
+    public void setId(int id) {
+        this.id = id;
+    }
+    public int getId() {
+        return id;
+    }
+    
+    public void setHeroId(int heroId) {
+        this.heroId = heroId;
+    }
+    public int getHeroId() {
+        return heroId;
+    }
+    
+    public void setLocationId(int locationId) {
+        this.locationId = locationId;
+    }
+    public int getLocationId() {
+        return locationId;
+    }
 }

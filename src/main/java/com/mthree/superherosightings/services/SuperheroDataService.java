@@ -55,14 +55,11 @@ public class SuperheroDataService {
     
     /**
      * Edits a hero
-     * @param hero the hero's old data
-     * @param name the hero's new name
-     * @param description the hero's new description
-     * @param powerId the hero's new power's id
+     * @param hero the hero's new data
      * @throws DataAccessException 
      */
     @Transactional
-    public void editHero(Hero hero, String name, String description, int powerId) throws DataAccessException {}
+    public void editHero(Hero hero) throws DataAccessException {}
     
     /**
      * Deletes a hero
@@ -140,16 +137,11 @@ public class SuperheroDataService {
     
     /**
      * Edits a location
-     * @param location the location's old data
-     * @param name the new name
-     * @param description the new description
-     * @param address the new address
-     * @param longitude the new longitude
-     * @param latitude the new latitude
+     * @param location the location's new data
      * @throws DataAccessException 
      */
     @Transactional
-    public void editLocation(Location location, String name, String description, String address, double latitude, double longitude) throws DataAccessException {}
+    public void editLocation(Location location) throws DataAccessException {}
     
     /**
      * Deletes a location
@@ -186,14 +178,11 @@ public class SuperheroDataService {
     
     /**
      * Edits a organization
-     * @param organization the organization old data
-     * @param name the new name
-     * @param description the new description
-     * @param locationId the new location id
+     * @param organization the organization new data
      * @throws DataAccessException 
      */
     @Transactional
-    public void editOrganization(Organization organization, String name, String description, int locationId) throws DataAccessException {}
+    public void editOrganization(Organization organization) throws DataAccessException {}
     
     /**
      * Deletes a organization

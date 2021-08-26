@@ -100,14 +100,15 @@ public class LocationsController {
     
     /**
      * Receives the data to edit the location and sends it to the data service
-     * @param location the location's data
+     * @param id the location's id
      * @param request the data to add to the location
      * @return a redirect to the location's info page
      */
     @PostMapping("editLocation")
-    public String editLocation(Location location, HttpServletRequest request) {
+    public String editLocation(Integer id, HttpServletRequest request) {
         String name, description, address;
         double latitude, longitude;
+        Location location;
         
         name = request.getParameter("name");
         description = request.getParameter("description");
@@ -115,8 +116,9 @@ public class LocationsController {
         latitude = Double.parseDouble(request.getParameter("latitude"));
         longitude = Double.parseDouble(request.getParameter("latitude"));
         
-        superheroDataService.editLocation(location, name, description, address, latitude, longitude);
-        return "redirect:/getLocation?id=" + location.getId();
+        location = new Location(id, name, description, address, latitude, longitude);
+        superheroDataService.editLocation(location);
+        return "redirect:/getLocation?id=" + id;
     }
     
     /**

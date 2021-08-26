@@ -7,7 +7,6 @@
 package com.mthree.superherosightings.controllers;
 
 import com.mthree.superherosightings.models.IdAndName;
-import com.mthree.superherosightings.models.Location;
 import com.mthree.superherosightings.models.Organization;
 import com.mthree.superherosightings.services.SuperheroDataService;
 import java.util.List;
@@ -45,7 +44,7 @@ public class OrganizationsController {
     }
     
     /**
-     * Gets the data to display on the getOrganiztions page
+     * Gets the data to display on the getOrganizations page
      * @param id the organization's id
      * @param model the page's model
      * @return the getOrganization page
@@ -99,21 +98,23 @@ public class OrganizationsController {
     
     /**
      * Receives the data to edit the organization and sends it to the data service
-     * @param organization the organization's data
+     * @param id the organization's id
      * @param request the data to add to the organization
      * @return a redirect to the organization's info page
      */
     @PostMapping("editOrganization")
-    public String editOrganization(Organization organization, HttpServletRequest request) {
+    public String editOrganization(Integer id, HttpServletRequest request) {
         String name, description;
         int locationId;
+        Organization organization;
         
         name = request.getParameter("name");
         description = request.getParameter("description");
         locationId = Integer.parseInt(request.getParameter("locationId"));
         
-        superheroDataService.editOrganization(organization, name, description, locationId);
-        return "redirect:/getOrganization?id=" + organization.getId();
+        organization = new Organization(id, name, description, locationId);
+        superheroDataService.editOrganization(organization);
+        return "redirect:/getOrganization?id=" + id;
     }
     
     /**
