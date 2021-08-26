@@ -9,6 +9,8 @@ package com.mthree.superherosightings.controllers;
 import com.mthree.superherosightings.models.IdAndName;
 import com.mthree.superherosightings.models.Sighting;
 import com.mthree.superherosightings.services.SuperheroDataService;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,12 +69,14 @@ public class SightingsController {
     @PostMapping("addSighting")
     public String addSighting(HttpServletRequest request) {
         int heroId, locationId;
+        Timestamp time;
         Sighting sighting;
         
         heroId = Integer.parseInt(request.getParameter("heroId"));
         locationId = Integer.parseInt(request.getParameter("locationId"));
+        time = Timestamp.from(Instant.now());
         
-        sighting = new Sighting(-1, heroId, locationId);
+        sighting = new Sighting(-1, heroId, locationId, time);
         superheroDataService.addSighting(sighting);
         
         return "redirect:/getSightings";
@@ -103,12 +107,14 @@ public class SightingsController {
     @PostMapping("editSighting")
     public String editSighting(Integer id, HttpServletRequest request) {
         int heroId, locationId;
+        Timestamp time;
         Sighting sighting;
         
         heroId = Integer.parseInt(request.getParameter("heroId"));
         locationId = Integer.parseInt(request.getParameter("locationId"));
+        time = Timestamp.from(Instant.now());
         
-        sighting = new Sighting(id, heroId, locationId);
+        sighting = new Sighting(id, heroId, locationId, time);
         superheroDataService.editSighting(sighting);
         return "redirect:/getSighting?id=" + id;
     }

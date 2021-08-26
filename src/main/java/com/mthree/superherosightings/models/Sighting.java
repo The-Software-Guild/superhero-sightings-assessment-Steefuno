@@ -6,6 +6,8 @@
 
 package com.mthree.superherosightings.models;
 
+import java.sql.Timestamp;
+
 /**
  * 
  * @author Steven
@@ -14,11 +16,13 @@ public class Sighting {
     private int id;
     private int heroId;
     private int locationId;
+    private Timestamp time;
     
-    public Sighting(int id, int heroId, int locationId) {
+    public Sighting(int id, int heroId, int locationId, Timestamp time) {
         this.id = id;
         this.heroId = heroId;
         this.locationId = locationId;
+        this.time = time;
     }
     
     public void setId(int id) {
@@ -40,5 +44,12 @@ public class Sighting {
     }
     public int getLocationId() {
         return locationId;
+    }
+    
+    public void setTime(Timestamp time) {
+        this.time = time;
+    }
+    public Timestamp getTime() {
+        return time;
     }
 }

@@ -7,6 +7,7 @@
 package com.mthree.superherosightings.services;
 
 import com.mthree.superherosightings.daos.SuperheroDao;
+import com.mthree.superherosightings.models.Affiliation;
 import com.mthree.superherosightings.models.Hero;
 import com.mthree.superherosightings.models.IdAndName;
 import com.mthree.superherosightings.models.Location;
@@ -230,6 +231,41 @@ public class SuperheroDataService {
     @Transactional
     public void deleteOrganization(int organizationId) throws DataAccessException {
         dao.deleteOrganization(organizationId);
+    }
+    
+    /**
+     * Gets all of the organization affiliations for a hero
+     * @param heroId the hero's id
+     * @return the list of affiliations
+     */
+    public List<Affiliation> getHeroAffiliations(int heroId) throws DataAccessException {
+        return dao.getHeroAffiliations(heroId);
+    }
+    
+    /**
+     * Gets all of the hero affiliations for an organization
+     * @param organizationId the organization's id
+     * @return the list of affiliations
+     */
+    public List<Affiliation> getOrganizationAffiliations(int organizationId) throws DataAccessException {
+        return dao.getOrganizationAffiliations(organizationId);
+    }
+    
+    /**
+     * Affiliates a hero and an organization
+     * @param heroId the hero's id
+     * @param organizationId the organization's id
+     */
+    public void setAffiliation(int heroId, int organizationId) throws DataAccessException {
+        dao.setAffiliation(heroId, organizationId);
+    }
+    
+    /**
+     * Deletes an affiliation
+     * @param affiliationId the affiliation's id
+     */
+    public void deleteAffiliation(int affiliationId) throws DataAccessException {
+        dao.deleteAffiliation(affiliationId);
     }
     
     /**

@@ -7,6 +7,7 @@
 package com.mthree.superherosightings.daos;
 
 import com.mthree.superherosightings.daos.dbmappers.*;
+import com.mthree.superherosightings.models.Affiliation;
 import com.mthree.superherosightings.models.Hero;
 import com.mthree.superherosightings.models.IdAndName;
 import com.mthree.superherosightings.models.Location;
@@ -35,50 +36,50 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
         "ORDER BY id "
     ;
     final private static String SELECT_HERO_BY_ID =
-        "SELECT heroId as id, name as name " +
+        "SELECT * " +
         "FROM hero " +
         "WHERE hero.heroId = ? "
     ;
     final private static String INSERT_NEW_HERO =
-        "INSERT INTO hero(name, description, superPowerId) VALUES" +
+        "INSERT INTO hero(name, description, superPowerId) VALUES " +
         "   (?, ?, ?) "
     ;
     final private static String UPDATE_HERO =
         "UPDATE hero " +
         "SET " +
-        "   name = ? " +
-        "   description = ? " +
+        "   name = ?, " +
+        "   description = ?, " +
         "   superPowerId = ? " +
         "WHERE heroId = ? "
     ;
     final private static String DELETE_HERO =
-        "DELETE hero " +
+        "DELETE FROM hero " +
         "WHERE heroId = ? "
     ;
     
     final private static String SELECT_ALL_POWER_NAMES =
-        "SELECT powerId as id, name as name " +
-        "FROM power " +
+        "SELECT superPowerId as id, name as name " +
+        "FROM superPower " +
         "ORDER BY id "
     ;
     final private static String SELECT_POWER_BY_ID =
-        "SELECT powerId as id, name as name " +
-        "FROM power " +
-        "WHERE power.powerId = ? "
+        "SELECT * " +
+        "FROM superPower " +
+        "WHERE superPower.superPowerId = ? "
     ;
     final private static String INSERT_NEW_POWER =
-        "INSERT INTO power(name) VALUES" +
+        "INSERT INTO superPower(name) VALUES" +
         "   (?) "
     ;
     final private static String UPDATE_POWER =
-        "UPDATE power " +
+        "UPDATE superPower " +
         "SET " +
         "   name = ? " +
-        "WHERE powerId = ? "
+        "WHERE superPowerId = ? "
     ;
     final private static String DELETE_POWER =
-        "DELETE power " +
-        "WHERE powerId = ? "
+        "DELETE FROM superPower " +
+        "WHERE superPowerId = ? "
     ;
     
     final private static String SELECT_ALL_LOCATION_NAMES =
@@ -87,26 +88,26 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
         "ORDER BY id "
     ;
     final private static String SELECT_LOCATION_BY_ID =
-        "SELECT locationId as id, name as name " +
+        "SELECT * " +
         "FROM location " +
         "WHERE location.locationId = ? "
     ;
     final private static String INSERT_NEW_LOCATION =
-        "INSERT INTO location(name, description, address, latitude, longitude) VALUES" +
+        "INSERT INTO location(name, description, address, latitude, longitude) VALUES " +
         "   (?, ?, ?, ?, ?) "
     ;
     final private static String UPDATE_LOCATION =
         "UPDATE location " +
         "SET " +
-        "   name = ? " +
-        "   description = ? " +
-        "   address = ? " +
-        "   latitude = ? " +
+        "   name = ?, " +
+        "   description = ?, " +
+        "   address = ?, " +
+        "   latitude = ?, " +
         "   longitude = ? " +
         "WHERE locationId = ? "
     ;
     final private static String DELETE_LOCATION =
-        "DELETE location " +
+        "DELETE FROM location " +
         "WHERE locationId = ? "
     ;
     
@@ -116,51 +117,71 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
         "ORDER BY id "
     ;
     final private static String SELECT_ORGANIZATION_BY_ID =
-        "SELECT organizationId as id, name as name " +
+        "SELECT * " +
         "FROM organization " +
         "WHERE organization.organizationId = ? "
     ;
     final private static String INSERT_NEW_ORGANIZATION =
-        "INSERT INTO organization(name, description, locationId) VALUES" +
+        "INSERT INTO organization(name, description, locationId) VALUES " +
         "   (?, ?, ?) "
     ;
     final private static String UPDATE_ORGANIZATION =
         "UPDATE organization " +
         "SET " +
-        "   name = ? " +
-        "   description = ? " +
+        "   name = ?, " +
+        "   description = ?, " +
         "   locationId = ? " +
         "WHERE organizationId = ? "
     ;
     final private static String DELETE_ORGANIZATION =
-        "DELETE organization " +
+        "DELETE FROM organization " +
         "WHERE organizationId = ? "
     ;
     
+    final private static String SELECT_HERO_AFFILIATIONS =
+        "SELECT affiliationId as id, heroId, organizationId " +
+        "FROM heroAffiliatedWithOrganization " +
+        "WHERE heroId = ? "
+    ;
+    final private static String SELECT_ORGANIZATION_AFFILIATIONS =
+        "SELECT affiliationId as id, heroId, organizationId " +
+        "FROM heroAffiliatedWithOrganization " +
+        "WHERE organizationId = ? "
+    ;
+    final private static String INSERT_AFFILIATION = 
+        "INSERT INTO heroAffiliatedWithOrganization(heroId, organizationId) VALUES " +
+        "   (?, ?) "
+    ;
+    final private static String DELETE_AFFILIATION =
+        "DELETE FROM heroAffiliatedWithOrganization " +
+        "WHERE affiliationId = ? "
+    ;
+    
     final private static String SELECT_ALL_SIGHTING_NAMES =
-        "SELECT sightingId as id, name as name " +
-        "FROM sighting " +
+        "SELECT sightingId as id, location.name as name " +
+        "FROM heroSightedAt " +
+        "INNER JOIN location ON location.locationId = heroSightedAt.locationId " +
         "ORDER BY id "
     ;
     final private static String SELECT_SIGHTING_BY_ID =
-        "SELECT sightingId as id, name as name " +
-        "FROM sighting " +
-        "WHERE sighting.sightingId = ? "
+        "SELECT * " +
+        "FROM heroSightedAt " +
+        "WHERE heroSightedAt.sightingId = ? "
     ;
     final private static String INSERT_NEW_SIGHTING =
-        "INSERT INTO sighting(name, heroId, locationId) VALUES" +
-        "   (?, ?, ?) "
+        "INSERT INTO heroSightedAt(heroId, locationId, time) VALUES " +
+        "   (?, ?, ?, ?) "
     ;
     final private static String UPDATE_SIGHTING =
-        "UPDATE sighting " +
+        "UPDATE heroSightedAt " +
         "SET " +
-        "   name = ? " +
-        "   heroId = ? " +
-        "   locationId = ? " +
+        "   heroId = ?, " +
+        "   locationId = ?, " +
+        "   time = ? " +
         "WHERE sightingId = ? "
     ;
     final private static String DELETE_SIGHTING =
-        "DELETE sighting " +
+        "DELETE FROM heroSightedAt " +
         "WHERE sightingId = ? "
     ;
     
@@ -538,6 +559,72 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
     }
     
     /**
+     * Gets all of the organization affiliations for a hero
+     * @param heroId the hero's id
+     * @return the list of affiliations
+     */
+    @Override
+    public List<Affiliation> getHeroAffiliations(int heroId) throws DataAccessException {
+        List<Affiliation> affiliationsList;
+        
+        affiliationsList = jdbcTemplate.query(SELECT_HERO_AFFILIATIONS, new AffiliationMapper(), heroId);
+        
+        return affiliationsList;
+    }
+    
+    /**
+     * Gets all of the hero affiliations for an organization
+     * @param organizationId the organization's id
+     * @return the list of affiliations
+     */
+    @Override
+    public List<Affiliation> getOrganizationAffiliations(int organizationId) throws DataAccessException {
+        List<Affiliation> affiliationsList;
+        
+        affiliationsList = jdbcTemplate.query(SELECT_ORGANIZATION_AFFILIATIONS, new AffiliationMapper(), organizationId);
+        
+        return affiliationsList;
+    }
+    
+    /**
+     * Affiliates a hero and an organization
+     * @param heroId the hero's id
+     * @param organizationId the organization's id
+     */
+    @Override
+    public void setAffiliation(int heroId, int organizationId) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+                
+                preparedStatement = connection.prepareStatement(INSERT_AFFILIATION);
+                preparedStatement.setInt(1, heroId);
+                preparedStatement.setInt(2, organizationId);
+                
+                return preparedStatement;
+            }
+        );
+    }
+    
+    /**
+     * Deletes an affiliation
+     * @param affiliationId the affiliation's id
+     */
+    @Override
+    public void deleteAffiliation(int affiliationId) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+                
+                preparedStatement = connection.prepareStatement(DELETE_AFFILIATION);
+                preparedStatement.setInt(1, affiliationId);
+                
+                return preparedStatement;
+            }
+        );
+    }
+    
+    /**
      * Gets all the sightings
      * @return a list of the ids and names
      * @throws DataAccessException 
@@ -580,6 +667,7 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
                 preparedStatement = connection.prepareStatement(INSERT_NEW_SIGHTING);
                 preparedStatement.setInt(1, sighting.getHeroId());
                 preparedStatement.setInt(2, sighting.getLocationId());
+                preparedStatement.setTimestamp(3, sighting.getTime());
                 
                 return preparedStatement;
             }
@@ -600,7 +688,8 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
                 preparedStatement = connection.prepareStatement(UPDATE_SIGHTING);
                 preparedStatement.setInt(1, sighting.getHeroId());
                 preparedStatement.setInt(2, sighting.getLocationId());
-                preparedStatement.setInt(3, sighting.getId());
+                preparedStatement.setTimestamp(3, sighting.getTime());
+                preparedStatement.setInt(4, sighting.getId());
                 
                 return preparedStatement;
             }

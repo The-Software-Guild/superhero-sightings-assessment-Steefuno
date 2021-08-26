@@ -6,7 +6,7 @@
 
 package com.mthree.superherosightings.daos.dbmappers;
 
-import com.mthree.superherosightings.models.Sighting;
+import com.mthree.superherosightings.models.Affiliation;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,14 +15,13 @@ import org.springframework.jdbc.core.RowMapper;
  * 
  * @author Steven
  */
-public class SightingMapper implements RowMapper {
+public class AffiliationMapper implements RowMapper {
     @Override
-    public Sighting mapRow(ResultSet resultSet, int index) throws SQLException {
-        return new Sighting(
+    public Affiliation mapRow(ResultSet resultSet, int index) throws SQLException {
+        return new Affiliation(
             resultSet.getInt(1),
             resultSet.getInt(2),
-            resultSet.getInt(3),
-            resultSet.getTimestamp(4)
+            resultSet.getInt(3)
         );
     }
 }

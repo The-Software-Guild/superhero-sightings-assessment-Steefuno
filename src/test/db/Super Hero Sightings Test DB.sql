@@ -1,8 +1,8 @@
 -- reconstruct the database
-DROP DATABASE IF EXISTS SuperheroSightingsDB;
-CREATE DATABASE SuperheroSightingsDB;
+DROP DATABASE IF EXISTS SuperheroSightingsTestDB;
+CREATE DATABASE SuperheroSightingsTestDB;
 
-USE SuperheroSightingsDB;
+USE SuperheroSightingsTestDB;
 
 CREATE TABLE location(
 	locationId INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -41,8 +41,10 @@ CREATE TABLE hero(
 );
 
 CREATE TABLE heroAffiliatedWithOrganization(
+	affiliationId INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	heroId INT UNSIGNED NOT NULL,
     organizationId INT UNSIGNED NOT NULL,
+    PRIMARY KEY(affiliationId),
     CONSTRAINT FOREIGN KEY fk_heroAffiliatedWithOrganization_hero(heroId)
 		REFERENCES hero(heroId),
     CONSTRAINT FOREIGN KEY fk_heroAffiliatedWithOrganization_organization(organizationId)
@@ -68,5 +70,5 @@ INSERT INTO hero(name, description, superPowerId) VALUES
 	("Bob", "He's the dude that runs real fast.", 1)
 ;
 
-SELECT * FROM hero;
+SELECT heroId as id FROM hero ORDER BY heroId;
 SELECT * FROM superPower;
