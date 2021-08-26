@@ -13,6 +13,8 @@ import com.mthree.superherosightings.models.Location;
 import com.mthree.superherosightings.models.Organization;
 import com.mthree.superherosightings.models.Power;
 import com.mthree.superherosightings.models.Sighting;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -30,7 +32,136 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
     final private static String SELECT_ALL_HERO_NAMES =
         "SELECT heroId as id, name as name " +
         "FROM hero " +
-        "ORDER BY heroId "
+        "ORDER BY id "
+    ;
+    final private static String SELECT_HERO_BY_ID =
+        "SELECT heroId as id, name as name " +
+        "FROM hero " +
+        "WHERE hero.heroId = ? "
+    ;
+    final private static String INSERT_NEW_HERO =
+        "INSERT INTO hero(name, description, superPowerId) VALUES" +
+        "   (?, ?, ?) "
+    ;
+    final private static String UPDATE_HERO =
+        "UPDATE hero " +
+        "SET " +
+        "   name = ? " +
+        "   description = ? " +
+        "   superPowerId = ? " +
+        "WHERE heroId = ? "
+    ;
+    final private static String DELETE_HERO =
+        "DELETE hero " +
+        "WHERE heroId = ? "
+    ;
+    
+    final private static String SELECT_ALL_POWER_NAMES =
+        "SELECT powerId as id, name as name " +
+        "FROM power " +
+        "ORDER BY id "
+    ;
+    final private static String SELECT_POWER_BY_ID =
+        "SELECT powerId as id, name as name " +
+        "FROM power " +
+        "WHERE power.powerId = ? "
+    ;
+    final private static String INSERT_NEW_POWER =
+        "INSERT INTO power(name) VALUES" +
+        "   (?) "
+    ;
+    final private static String UPDATE_POWER =
+        "UPDATE power " +
+        "SET " +
+        "   name = ? " +
+        "WHERE powerId = ? "
+    ;
+    final private static String DELETE_POWER =
+        "DELETE power " +
+        "WHERE powerId = ? "
+    ;
+    
+    final private static String SELECT_ALL_LOCATION_NAMES =
+        "SELECT locationId as id, name as name " +
+        "FROM location " +
+        "ORDER BY id "
+    ;
+    final private static String SELECT_LOCATION_BY_ID =
+        "SELECT locationId as id, name as name " +
+        "FROM location " +
+        "WHERE location.locationId = ? "
+    ;
+    final private static String INSERT_NEW_LOCATION =
+        "INSERT INTO location(name, description, address, latitude, longitude) VALUES" +
+        "   (?, ?, ?, ?, ?) "
+    ;
+    final private static String UPDATE_LOCATION =
+        "UPDATE location " +
+        "SET " +
+        "   name = ? " +
+        "   description = ? " +
+        "   address = ? " +
+        "   latitude = ? " +
+        "   longitude = ? " +
+        "WHERE locationId = ? "
+    ;
+    final private static String DELETE_LOCATION =
+        "DELETE location " +
+        "WHERE locationId = ? "
+    ;
+    
+    final private static String SELECT_ALL_ORGANIZATION_NAMES =
+        "SELECT organizationId as id, name as name " +
+        "FROM organization " +
+        "ORDER BY id "
+    ;
+    final private static String SELECT_ORGANIZATION_BY_ID =
+        "SELECT organizationId as id, name as name " +
+        "FROM organization " +
+        "WHERE organization.organizationId = ? "
+    ;
+    final private static String INSERT_NEW_ORGANIZATION =
+        "INSERT INTO organization(name, description, locationId) VALUES" +
+        "   (?, ?, ?) "
+    ;
+    final private static String UPDATE_ORGANIZATION =
+        "UPDATE organization " +
+        "SET " +
+        "   name = ? " +
+        "   description = ? " +
+        "   locationId = ? " +
+        "WHERE organizationId = ? "
+    ;
+    final private static String DELETE_ORGANIZATION =
+        "DELETE organization " +
+        "WHERE organizationId = ? "
+    ;
+    
+    final private static String SELECT_ALL_SIGHTING_NAMES =
+        "SELECT sightingId as id, name as name " +
+        "FROM sighting " +
+        "ORDER BY id "
+    ;
+    final private static String SELECT_SIGHTING_BY_ID =
+        "SELECT sightingId as id, name as name " +
+        "FROM sighting " +
+        "WHERE sighting.sightingId = ? "
+    ;
+    final private static String INSERT_NEW_SIGHTING =
+        "INSERT INTO sighting(name, heroId, locationId) VALUES" +
+        "   (?, ?, ?) "
+    ;
+    final private static String UPDATE_SIGHTING =
+        "UPDATE sighting " +
+        "SET " +
+        "   name = ? " +
+        "   heroId = ? " +
+        "   locationId = ? " +
+        "WHERE sightingId = ? "
+    ;
+    final private static String DELETE_SIGHTING =
+        "DELETE sighting " +
+        "WHERE sightingId = ? "
     ;
     
     /**
@@ -51,7 +182,6 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
     public List<IdAndName> getHeroes() throws DataAccessException {
         List<IdAndName> heroesList;
         
-        // get all ids
         heroesList = jdbcTemplate.query(SELECT_ALL_HERO_NAMES, new IdAndNameMapper());
         
         return heroesList;
@@ -64,7 +194,13 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public Hero getHero(int heroId) throws DataAccessException {}
+    public Hero getHero(int heroId) throws DataAccessException {
+        Hero hero;
+        
+        hero = (Hero) jdbcTemplate.queryForObject(SELECT_HERO_BY_ID, new HeroMapper(), heroId);
+        
+        return hero;
+    }
     
     /**
      * Adds a new hero
@@ -72,7 +208,20 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public void addHero(Hero hero) throws DataAccessException {}
+    public void addHero(Hero hero) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+                
+                preparedStatement = connection.prepareStatement(INSERT_NEW_HERO);
+                preparedStatement.setString(1, hero.getName());
+                preparedStatement.setString(2, hero.getDescription());
+                preparedStatement.setInt(3, hero.getSuperPowerId());
+                
+                return preparedStatement;
+            }
+        );
+    }
     
     /**
      * Edits a hero
@@ -80,7 +229,21 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public void editHero(Hero hero) throws DataAccessException {}
+    public void editHero(Hero hero) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+
+                preparedStatement = connection.prepareStatement(UPDATE_HERO);
+                preparedStatement.setString(1, hero.getName());
+                preparedStatement.setString(2, hero.getDescription());
+                preparedStatement.setInt(3, hero.getSuperPowerId());
+                preparedStatement.setInt(4, hero.getId());
+                
+                return preparedStatement;
+            }
+        );
+    }
     
     /**
      * Deletes a hero
@@ -88,7 +251,18 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public void deleteHero(int heroId) throws DataAccessException {}
+    public void deleteHero(int heroId) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+
+                preparedStatement = connection.prepareStatement(DELETE_HERO);
+                preparedStatement.setInt(1, heroId);
+                
+                return preparedStatement;
+            }
+        );
+    }
     
     /**
      * Gets all the powers
@@ -96,7 +270,13 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public List<IdAndName> getPowers() throws DataAccessException {}
+    public List<IdAndName> getPowers() throws DataAccessException {
+        List<IdAndName> powersList;
+        
+        powersList = jdbcTemplate.query(SELECT_ALL_POWER_NAMES, new IdAndNameMapper());
+        
+        return powersList;
+    }
     
     /**
      * Gets a power
@@ -105,7 +285,13 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public Power getPower(int powerId) throws DataAccessException {}
+    public Power getPower(int powerId) throws DataAccessException {
+        Power power;
+        
+        power = (Power) jdbcTemplate.queryForObject(SELECT_POWER_BY_ID, new PowerMapper(), powerId);
+        
+        return power;
+    }
     
     /**
      * Adds a new power
@@ -113,7 +299,18 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public void addPower(Power power) throws DataAccessException {}
+    public void addPower(Power power) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+                
+                preparedStatement = connection.prepareStatement(INSERT_NEW_POWER);
+                preparedStatement.setString(1, power.getName());
+                
+                return preparedStatement;
+            }
+        );
+    }
     
     /**
      * Edits a power
@@ -121,7 +318,19 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public void editPower(Power power) throws DataAccessException {}
+    public void editPower(Power power) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+
+                preparedStatement = connection.prepareStatement(UPDATE_POWER);
+                preparedStatement.setString(1, power.getName());
+                preparedStatement.setInt(2, power.getId());
+                
+                return preparedStatement;
+            }
+        );
+    }
     
     /**
      * Deletes a power
@@ -129,7 +338,18 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public void deletePower(int powerId) throws DataAccessException {}
+    public void deletePower(int powerId) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+
+                preparedStatement = connection.prepareStatement(DELETE_POWER);
+                preparedStatement.setInt(1, powerId);
+                
+                return preparedStatement;
+            }
+        );
+    }
     
     /**
      * Gets all the locations
@@ -137,7 +357,13 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public List<IdAndName> getLocations() throws DataAccessException {}
+    public List<IdAndName> getLocations() throws DataAccessException {
+        List<IdAndName> locationsList;
+        
+        locationsList = jdbcTemplate.query(SELECT_ALL_LOCATION_NAMES, new IdAndNameMapper());
+        
+        return locationsList;
+    }
     
     /**
      * Gets a location
@@ -146,7 +372,13 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public Location getLocation(int locationId) throws DataAccessException {}
+    public Location getLocation(int locationId) throws DataAccessException {
+        Location location;
+        
+        location = (Location) jdbcTemplate.queryForObject(SELECT_LOCATION_BY_ID, new LocationMapper(), locationId);
+        
+        return location;
+    }
     
     /**
      * Adds a new location
@@ -154,7 +386,22 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public void addLocation(Location location) throws DataAccessException {}
+    public void addLocation(Location location) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+                
+                preparedStatement = connection.prepareStatement(INSERT_NEW_LOCATION);
+                preparedStatement.setString(1, location.getName());
+                preparedStatement.setString(2, location.getDescription());
+                preparedStatement.setString(3, location.getAddress());
+                preparedStatement.setDouble(4, location.getLatitude());
+                preparedStatement.setDouble(5, location.getLongitude());
+                
+                return preparedStatement;
+            }
+        );
+    }
     
     /**
      * Edits a location
@@ -162,7 +409,23 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public void editLocation(Location location) throws DataAccessException {}
+    public void editLocation(Location location) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+
+                preparedStatement = connection.prepareStatement(UPDATE_LOCATION);
+                preparedStatement.setString(1, location.getName());
+                preparedStatement.setString(2, location.getDescription());
+                preparedStatement.setString(3, location.getDescription());
+                preparedStatement.setDouble(4, location.getLatitude());
+                preparedStatement.setDouble(5, location.getLongitude());
+                preparedStatement.setDouble(6, location.getId());
+                
+                return preparedStatement;
+            }
+        );
+    }
     
     /**
      * Deletes a location
@@ -170,7 +433,18 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public void deleteLocation(int locationId) throws DataAccessException {}
+    public void deleteLocation(int locationId) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+
+                preparedStatement = connection.prepareStatement(DELETE_LOCATION);
+                preparedStatement.setInt(1, locationId);
+                
+                return preparedStatement;
+            }
+        );
+    }
     
     /**
      * Gets all the organizations
@@ -178,7 +452,13 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public List<IdAndName> getOrganizations() throws DataAccessException {}
+    public List<IdAndName> getOrganizations() throws DataAccessException {
+        List<IdAndName> organizationsList;
+        
+        organizationsList = jdbcTemplate.query(SELECT_ALL_ORGANIZATION_NAMES, new IdAndNameMapper());
+        
+        return organizationsList;
+    }
     
     /**
      * Gets a organization
@@ -187,7 +467,13 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public Organization getOrganization(int organizationId) throws DataAccessException {}
+    public Organization getOrganization(int organizationId) throws DataAccessException {
+        Organization organization;
+        
+        organization = (Organization) jdbcTemplate.queryForObject(SELECT_ORGANIZATION_BY_ID, new OrganizationMapper(), organizationId);
+        
+        return organization;
+    }
     
     /**
      * Adds a new organization
@@ -195,7 +481,20 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public void addOrganization(Organization organization) throws DataAccessException {}
+    public void addOrganization(Organization organization) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+                
+                preparedStatement = connection.prepareStatement(INSERT_NEW_ORGANIZATION);
+                preparedStatement.setString(1, organization.getName());
+                preparedStatement.setString(2, organization.getDescription());
+                preparedStatement.setInt(3, organization.getLocationId());
+                
+                return preparedStatement;
+            }
+        );
+    }
     
     /**
      * Edits a organization
@@ -203,7 +502,21 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public void editOrganization(Organization organization) throws DataAccessException {}
+    public void editOrganization(Organization organization) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+
+                preparedStatement = connection.prepareStatement(UPDATE_ORGANIZATION);
+                preparedStatement.setString(1, organization.getName());
+                preparedStatement.setString(2, organization.getDescription());
+                preparedStatement.setInt(3, organization.getLocationId());
+                preparedStatement.setInt(4, organization.getId());
+                
+                return preparedStatement;
+            }
+        );
+    }
     
     /**
      * Deletes a organization
@@ -211,7 +524,18 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public void deleteOrganization(int organizationId) throws DataAccessException {}
+    public void deleteOrganization(int organizationId) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+
+                preparedStatement = connection.prepareStatement(DELETE_ORGANIZATION);
+                preparedStatement.setInt(1, organizationId);
+                
+                return preparedStatement;
+            }
+        );
+    }
     
     /**
      * Gets all the sightings
@@ -219,7 +543,13 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public List<IdAndName> getSightings() throws DataAccessException {}
+    public List<IdAndName> getSightings() throws DataAccessException {
+        List<IdAndName> sightingsList;
+        
+        sightingsList = jdbcTemplate.query(SELECT_ALL_SIGHTING_NAMES, new IdAndNameMapper());
+        
+        return sightingsList;
+    }
     
     /**
      * Gets a sighting
@@ -228,7 +558,13 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public Sighting getSighting(int sightingId) throws DataAccessException {}
+    public Sighting getSighting(int sightingId) throws DataAccessException {
+        Sighting sighting;
+        
+        sighting = (Sighting) jdbcTemplate.queryForObject(SELECT_SIGHTING_BY_ID, new SightingMapper(), sightingId);
+        
+        return sighting;
+    }
     
     /**
      * Adds a new sighting
@@ -236,7 +572,19 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public void addSighting(Sighting sighting) throws DataAccessException {}
+    public void addSighting(Sighting sighting) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+                
+                preparedStatement = connection.prepareStatement(INSERT_NEW_SIGHTING);
+                preparedStatement.setInt(1, sighting.getHeroId());
+                preparedStatement.setInt(2, sighting.getLocationId());
+                
+                return preparedStatement;
+            }
+        );
+    }
     
     /**
      * Edits a sighting
@@ -244,7 +592,20 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public void editSighting(Sighting sighting) throws DataAccessException {}
+    public void editSighting(Sighting sighting) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+
+                preparedStatement = connection.prepareStatement(UPDATE_SIGHTING);
+                preparedStatement.setInt(1, sighting.getHeroId());
+                preparedStatement.setInt(2, sighting.getLocationId());
+                preparedStatement.setInt(3, sighting.getId());
+                
+                return preparedStatement;
+            }
+        );
+    }
     
     /**
      * Deletes a sighting
@@ -252,5 +613,16 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
      * @throws DataAccessException 
      */
     @Override
-    public void deleteSighting(int sightingId) throws DataAccessException {}
+    public void deleteSighting(int sightingId) throws DataAccessException {
+        jdbcTemplate.update(
+            (Connection connection) -> {
+                PreparedStatement preparedStatement;
+
+                preparedStatement = connection.prepareStatement(DELETE_SIGHTING);
+                preparedStatement.setInt(1, sightingId);
+                
+                return preparedStatement;
+            }
+        );
+    }
 }

@@ -11,15 +11,15 @@ package com.mthree.superherosightings.models;
  * @author Steven
  */
 public class Location {
-    private int locationId;
+    private int id;
     private String name;
     private String description;
     private String address;
     private double latitude;
     private double longitude;
     
-    public Location(int locationId, String name, String description, String address, double latitude, double longitude) {
-        this.locationId = locationId;
+    public Location(int id, String name, String description, String address, double latitude, double longitude) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.address = address;
@@ -27,11 +27,11 @@ public class Location {
         this.longitude = longitude;
     }
     
-    public void setLocationId(int locationId) {
-        this.locationId = locationId;
+    public void setId(int id) {
+        this.id = id;
     }
-    public int getLocationId() {
-        return locationId;
+    public int getId() {
+        return id;
     }
     
     public void setName(String name) {
