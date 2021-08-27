@@ -100,16 +100,17 @@ public class LocationsController {
     
     /**
      * Receives the data to edit the location and sends it to the data service
-     * @param id the location's id
      * @param request the data to add to the location
      * @return a redirect to the location's info page
      */
     @PostMapping("editLocation")
-    public String editLocation(Integer id, HttpServletRequest request) {
+    public String editLocation(HttpServletRequest request) {
         String name, description, address;
+        int id;
         double latitude, longitude;
         Location location;
         
+        id = Integer.parseInt(request.getParameter("id"));
         name = request.getParameter("name");
         description = request.getParameter("description");
         address = request.getParameter("address");
@@ -125,9 +126,10 @@ public class LocationsController {
      * Deletes a location
      * @param id the location's id
      * @return 
+     * @throws java.lang.Exception 
      */
     @GetMapping("deleteLocation")
-    public String deleteLocation(Integer id) {
+    public String deleteLocation(Integer id) throws Exception {
         superheroDataService.deleteLocation(id);
         
         return "redirect:/getLocations";

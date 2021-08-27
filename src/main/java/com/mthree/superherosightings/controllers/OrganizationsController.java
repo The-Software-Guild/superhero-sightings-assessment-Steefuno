@@ -98,16 +98,16 @@ public class OrganizationsController {
     
     /**
      * Receives the data to edit the organization and sends it to the data service
-     * @param id the organization's id
      * @param request the data to add to the organization
      * @return a redirect to the organization's info page
      */
     @PostMapping("editOrganization")
-    public String editOrganization(Integer id, HttpServletRequest request) {
+    public String editOrganization(HttpServletRequest request) {
         String name, description;
-        int locationId;
+        int id, locationId;
         Organization organization;
         
+        id = Integer.parseInt(request.getParameter("id"));
         name = request.getParameter("name");
         description = request.getParameter("description");
         locationId = Integer.parseInt(request.getParameter("locationId"));

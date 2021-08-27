@@ -145,6 +145,14 @@ public interface SuperheroDao {
     public abstract Organization getOrganization(int organizationId) throws DataAccessException;
     
     /**
+     * Gets organization(s)
+     * @param locationId the location's id
+     * @return
+     * @throws DataAccessException 
+     */
+    public abstract List<Organization> getOrganizationByLocation(int locationId) throws DataAccessException;
+    
+    /**
      * Adds a new organization
      * @param organization the organization's data
      * @throws DataAccessException 

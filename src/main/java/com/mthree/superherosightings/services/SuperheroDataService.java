@@ -77,6 +77,24 @@ public class SuperheroDataService {
      */
     @Transactional
     public void deleteHero(int heroId) throws DataAccessException {
+        dao.getHeroAffiliations(heroId)
+            .stream()
+            .filter(
+                (affiliation) -> affiliation.getHeroId() == heroId
+            )
+            .forEach(
+                (affiliation) -> {
+                    dao.deleteAffiliation(affiliation.getId());
+                }
+            )
+        ;
+        dao.getSightings()
+            .forEach(
+                (sighting) -> {
+                    dao.deleteSighting(sighting.getId());
+                }
+            )
+        ;
         dao.deleteHero(heroId);
     }
     
@@ -176,9 +194,13 @@ public class SuperheroDataService {
      * Deletes a location
      * @param locationId the location's id
      * @throws DataAccessException 
+     * @throws Exception 
      */
     @Transactional
-    public void deleteLocation(int locationId) throws DataAccessException {
+    public void deleteLocation(int locationId) throws DataAccessException, Exception {
+        if (dao.getOrganizationByLocation(locationId).size() > 0) {
+            throw new Exception("Cannot delete location with existing organizations on location");
+        }
         dao.deleteLocation(locationId);
     }
     

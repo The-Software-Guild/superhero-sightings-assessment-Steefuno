@@ -95,15 +95,16 @@ public class PowersController {
     
     /**
      * Receives the data to edit the power and sends it to the data service
-     * @param id the power's id
      * @param request the data to add to the power
      * @return a redirect to the power's info page
      */
     @PostMapping("editPower")
-    public String editPower(Integer id, HttpServletRequest request) {
+    public String editPower(HttpServletRequest request) {
         String name;
+        int id;
         Power power;
         
+        id = Integer.parseInt(request.getParameter("id"));
         name = request.getParameter("name");
         
         power = new Power(id, name);

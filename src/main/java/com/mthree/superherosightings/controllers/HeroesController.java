@@ -12,18 +12,16 @@ import com.mthree.superherosightings.services.SuperheroDataService;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 
  * @author Steven
  */
-@RestController
-@RequestMapping("/api/super_hero_sighting")
+@Controller
 public class HeroesController {
     @Autowired
     SuperheroDataService superheroDataService;
@@ -33,14 +31,14 @@ public class HeroesController {
      * @param model the page's model
      * @return the getHeroes page
      */
-    @GetMapping("getHeroes")
+    @GetMapping("/getHeroes")
     public String displayHeroes(Model model) {
         List<IdAndName> heroes;
         
         heroes = superheroDataService.getHeroes();
         
         model.addAttribute("heroes", heroes);
-        return "getHeroes";
+        return "/getHeroes";
     }
     
     /**
@@ -49,14 +47,19 @@ public class HeroesController {
      * @param model the page's model
      * @return the getHero page
      */
-    @GetMapping("getHero")
+    @GetMapping("/getHero")
     public String displayHero(Integer id, Model model) {
         Hero hero;
         
         hero = superheroDataService.getHero(id);
         model.addAttribute("hero", hero);
         
-        return "getHero";
+        return "/getHero";
+    }
+    
+    @GetMapping("/addHero")
+    public String displayAddHero(Model model) {
+        return "/addHero";
     }
     
     /**
@@ -64,7 +67,7 @@ public class HeroesController {
      * @param request the request details
      * @return the getHeroes page
      */
-    @PostMapping("addHero")
+    @PostMapping("/addHero")
     public String addHero(HttpServletRequest request) {
         String name, description;
         int powerId;
@@ -86,28 +89,28 @@ public class HeroesController {
      * @param model the page's model
      * @return 
      */
-    @GetMapping("editHero")
+    @GetMapping("/editHero")
     public String displayEditHero(Integer id, Model model) {
         Hero hero;
         
         hero = superheroDataService.getHero(id);
         model.addAttribute("hero", hero);
         
-        return "editHero";
+        return "/editHero";
     }
     
     /**
      * Receives the data to edit the hero and sends it to the data service
-     * @param id the hero's id
      * @param request the data to add to the hero along with the hero id
      * @return a redirect to the hero's info page
      */
-    @PostMapping("editHero")
-    public String editHero(Integer id, HttpServletRequest request) {
+    @PostMapping("/editHero")
+    public String editHero(HttpServletRequest request) {
         String name, description;
-        int powerId;
+        int id, powerId;
         Hero hero;
         
+        id = Integer.parseInt(request.getParameter("id"));
         name = request.getParameter("name");
         description = request.getParameter("description");
         powerId = Integer.parseInt(request.getParameter("powerId"));
@@ -122,7 +125,7 @@ public class HeroesController {
      * @param id the hero's id
      * @return 
      */
-    @GetMapping("deleteHero")
+    @GetMapping("/deleteHero")
     public String deleteHero(Integer id) {
         superheroDataService.deleteHero(id);
         

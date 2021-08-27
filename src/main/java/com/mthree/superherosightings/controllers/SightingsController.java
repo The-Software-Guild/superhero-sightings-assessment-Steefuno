@@ -100,16 +100,16 @@ public class SightingsController {
     
     /**
      * Receives the data to edit the sighting and sends it to the data service
-     * @param id the sighting's id
      * @param request the data to add to the sighting
      * @return a redirect to the sighting's info page
      */
     @PostMapping("editSighting")
-    public String editSighting(Integer id, HttpServletRequest request) {
-        int heroId, locationId;
+    public String editSighting(HttpServletRequest request) {
+        int id, heroId, locationId;
         Timestamp time;
         Sighting sighting;
         
+        id = Integer.parseInt(request.getParameter("id"));
         heroId = Integer.parseInt(request.getParameter("heroId"));
         locationId = Integer.parseInt(request.getParameter("locationId"));
         time = Timestamp.from(Instant.now());

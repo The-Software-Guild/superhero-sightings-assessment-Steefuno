@@ -121,6 +121,11 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
         "FROM organization " +
         "WHERE organization.organizationId = ? "
     ;
+    final private static String SELECT_ORGANIZATION_BY_LOCATION =
+        "SELECT * " +
+        "FROM organization " +
+        "WHERE organization.locationId = ? "
+    ;
     final private static String INSERT_NEW_ORGANIZATION =
         "INSERT INTO organization(name, description, locationId) VALUES " +
         "   (?, ?, ?) "
@@ -494,6 +499,21 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
         organization = (Organization) jdbcTemplate.queryForObject(SELECT_ORGANIZATION_BY_ID, new OrganizationMapper(), organizationId);
         
         return organization;
+    }
+    
+    /**
+     * Gets organization(s)
+     * @param locationId the location's id
+     * @return
+     * @throws DataAccessException 
+     */
+    @Override
+    public List<Organization> getOrganizationByLocation(int locationId) throws DataAccessException {
+        List<Organization> organizationsList;
+        
+        organizationsList = jdbcTemplate.query(SELECT_ORGANIZATION_BY_LOCATION, new OrganizationMapper(), locationId);
+        
+        return organizationsList;
     }
     
     /**

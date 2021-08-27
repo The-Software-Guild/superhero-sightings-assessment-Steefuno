@@ -61,14 +61,3 @@ CREATE TABLE heroSightedAt(
     CONSTRAINT FOREIGN KEY fk_heroSightedAt_location(locationId)
 		REFERENCES location(locationId)
 );
-
-INSERT INTO superPower(name) VALUES
-	("running real fast")
-;
-
-INSERT INTO hero(name, description, superPowerId) VALUES
-	("Bob", "He's the dude that runs real fast.", 1)
-;
-
-SELECT heroId as id FROM hero ORDER BY heroId;
-SELECT * FROM superPower;
