@@ -174,6 +174,13 @@ public interface SuperheroDao {
     public abstract void deleteOrganization(int organizationId) throws DataAccessException;
     
     /**
+     * Gets an affiliation
+     * @param affiliationId the affiliation's id
+     * @return the affiliation
+     */
+    public Affiliation getAffiliation(int affiliationId) throws DataAccessException;
+    
+    /**
      * Gets all of the organization affiliations for a hero
      * @param heroId the hero's id
      * @return the list of affiliations

@@ -35,9 +35,6 @@
                 <div class="col text-center m-3">
                     <a href="getPowers" class="btn btn-outline-primary btn-lg">Powers</a>
                 </div>
-                <div class="col text-center m-3">
-                    <a href="getSightings" class="btn btn-outline-primary btn-lg">Sightings</a>
-                </div>
             </div>
             
             <div class="row m-4 border border-dark">
@@ -65,9 +62,41 @@
                 </div>
             </div>
 
+            <div class="row m-4 border border-dark">
+                <div class="container">
+                    <div class="row">
+                        <div class="col text-center m-3">
+                            <span class="h3">Affiliations</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col text-center m-3">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Organization ID</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="affiliation : ${affiliations}">
+                                        <td th:text="${affiliation.id}">Affiliation ID</td>
+                                        <td th:text="${affiliation.organizationId}">Organization ID</td>
+                                        <td><a href="#" th:href="@{/getOrganization(id=${affiliation.organizationId})}"><del>Organization Details</del></a></td>
+                                        <td><a href="#" th:href="@{/deleteAffiliation(id=${affiliation.id})}">Delete</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="row m-4">
                 <a href="#" th:href="@{/editHero?(id=${hero.id})}" class="btn btn-primary">Edit Hero</a>
                 <a href="#" th:href="@{/deleteHero?(id=${hero.id})}" class="btn btn-primary ml-1">Delete Hero</a>
+                <a href="#" th:href="@{/addAffiliation?(heroId=${hero.id})}" class="btn btn-primary ml-1">AddAffiliation</a>
             </div>
         </div> 
 

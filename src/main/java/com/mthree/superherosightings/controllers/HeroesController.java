@@ -6,6 +6,7 @@
 
 package com.mthree.superherosightings.controllers;
 
+import com.mthree.superherosightings.models.Affiliation;
 import com.mthree.superherosightings.models.Hero;
 import com.mthree.superherosightings.models.IdAndName;
 import com.mthree.superherosightings.services.SuperheroDataService;
@@ -50,9 +51,12 @@ public class HeroesController {
     @GetMapping("/getHero")
     public String displayHero(Integer id, Model model) {
         Hero hero;
+        List<Affiliation> affiliations;
         
         hero = superheroDataService.getHero(id);
+        affiliations = superheroDataService.getHeroAffiliations(id);
         model.addAttribute("hero", hero);
+        model.addAttribute("affiliations", affiliations);
         
         return "/getHero";
     }

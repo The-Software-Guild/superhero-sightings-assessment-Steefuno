@@ -143,6 +143,12 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
         "WHERE organizationId = ? "
     ;
     
+    final private static String SELECT_AFFILIATION =
+        "SELECT affiliationId as id, heroId, organizationId " +
+        "FROM heroAffiliatedWithOrganization " +
+        "WHERE affiliationId = ? "
+    ;
+    
     final private static String SELECT_HERO_AFFILIATIONS =
         "SELECT affiliationId as id, heroId, organizationId " +
         "FROM heroAffiliatedWithOrganization " +
@@ -576,6 +582,20 @@ public class SuperheroDaoDBImplementation implements SuperheroDao {
                 return preparedStatement;
             }
         );
+    }
+    
+    /**
+     * Gets an affiliation
+     * @param affiliationId the affiliation's id
+     * @return the affiliation
+     */
+    @Override
+    public Affiliation getAffiliation(int affiliationId) throws DataAccessException {
+        Affiliation affiliation;
+        
+        affiliation = (Affiliation) jdbcTemplate.queryForObject(SELECT_AFFILIATION, new AffiliationMapper(), affiliationId);
+        
+        return affiliation;
     }
     
     /**

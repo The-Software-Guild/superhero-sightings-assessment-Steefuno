@@ -12,9 +12,9 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-        <title>[[${hero.name}]]</title>
+        <title>Organizations</title>
     </head>
-    <body>
+        <body>
         <!-- Main Body of Page -->
         <div class="container">
             <div class="row m-4">
@@ -35,39 +35,29 @@
                 <div class="col text-center m-3">
                     <a href="getPowers" class="btn btn-outline-primary btn-lg">Powers</a>
                 </div>
-                <div class="col text-center m-3">
-                    <a href="getSightings" class="btn btn-outline-primary btn-lg">Sightings</a>
-                </div>
             </div>
-            
             <div class="row m-4 border border-dark">
-                <div class="container">
-                    <div class="row">
-                        <div class="col text-center m-3">
-                            <span class="h3">[[${hero.name}]]</span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3 text-left m-1">
-                            <div class="row">
-                                Hero ID: [[${hero.id}]]
-                            </div>
-                            <div class="row">
-                                Hero Power ID: [[${hero.superPowerId}]]
-                            </div>
-                        </div>
-                        <div class="col text-left m-1">
-                            <div class="row">
-                                [[${hero.description}]]
-                            </div>
-                        </div>
-                    </div>
+                <div class="col text-center m-3">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="organization : ${organizations}">
+                                <td th:text="${organization.id}">Organization ID</td>
+                                <td th:text="${organization.name}">Organization Name</td>
+                                <td><a href="#" th:href="@{/getOrganization(id=${organization.id})}"><del>Details</del></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-
             <div class="row m-4">
-                <a href="#" th:href="@{/editHero?(id=${hero.id})}" class="btn btn-primary">Edit Hero</a>
-                <a href="#" th:href="@{/deleteHero?(id=${hero.id})}" class="btn btn-primary ml-1">Delete Hero</a>
+                <a href="addOrganization" class="btn btn-primary"><del>Add Organization</del></a>
             </div>
         </div> 
 

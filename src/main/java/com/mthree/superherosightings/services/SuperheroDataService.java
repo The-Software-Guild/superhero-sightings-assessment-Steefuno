@@ -256,10 +256,21 @@ public class SuperheroDataService {
     }
     
     /**
+     * Gets an affiliation
+     * @param affiliationId the affiliation's id
+     * @return the affiliation
+     */
+    @Transactional
+    public Affiliation getAffiliation(int affiliationId) throws DataAccessException {
+        return dao.getAffiliation(affiliationId);
+    }
+    
+    /**
      * Gets all of the organization affiliations for a hero
      * @param heroId the hero's id
      * @return the list of affiliations
      */
+    @Transactional
     public List<Affiliation> getHeroAffiliations(int heroId) throws DataAccessException {
         return dao.getHeroAffiliations(heroId);
     }
@@ -269,6 +280,7 @@ public class SuperheroDataService {
      * @param organizationId the organization's id
      * @return the list of affiliations
      */
+    @Transactional
     public List<Affiliation> getOrganizationAffiliations(int organizationId) throws DataAccessException {
         return dao.getOrganizationAffiliations(organizationId);
     }
@@ -278,7 +290,8 @@ public class SuperheroDataService {
      * @param heroId the hero's id
      * @param organizationId the organization's id
      */
-    public void setAffiliation(int heroId, int organizationId) throws DataAccessException {
+    @Transactional
+    public void addAffiliation(int heroId, int organizationId) throws DataAccessException {
         dao.setAffiliation(heroId, organizationId);
     }
     
@@ -286,6 +299,7 @@ public class SuperheroDataService {
      * Deletes an affiliation
      * @param affiliationId the affiliation's id
      */
+    @Transactional
     public void deleteAffiliation(int affiliationId) throws DataAccessException {
         dao.deleteAffiliation(affiliationId);
     }
