@@ -12,12 +12,12 @@ import com.mthree.superherosightings.services.SuperheroDataService;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * 
@@ -57,6 +57,16 @@ public class PowersController {
         model.addAttribute("power", power);
         
         return "getPower";
+    }
+    
+    /**
+     * Gets the data to display the addPower page
+     * @param model the page's model
+     * @return the addPower page
+     */
+    @GetMapping("addPower")
+    public String displayAddPower(Model model) {
+        return "addPower";
     }
     
     /**
@@ -115,11 +125,19 @@ public class PowersController {
     /**
      * Deletes an power
      * @param id the power's id
+     * @param redirectAttributes model to insert redirect data into
      * @return 
      */
     @GetMapping("deletePower")
-    public String deletePower(Integer id) {
-        superheroDataService.deletePower(id);
+    public String deletePower(Integer id, RedirectAttributes redirectAttributes) {
+        try {
+            superheroDataService.deletePower(id);
+        } catch (DataIntegrityViolationException e) {
+            redirectAttributes.addFlashAttribute("notifications", new String[]{
+                "Failed to delete power: Power cannot delete with existing heroes."
+            });
+            return "redirect:/getPowers";
+        }
         
         return "redirect:/getPowers";
     }

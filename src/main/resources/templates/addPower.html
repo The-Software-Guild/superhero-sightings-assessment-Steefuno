@@ -12,7 +12,7 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-        <title>Edit Hero [[${hero.name}]]</title>
+        <title>Add Power</title>
     </head>
     <body>
         <!-- Main Body of Page -->
@@ -44,11 +44,10 @@
             
             <div class="row m-4 border border-dark">
                 <div class="col-3 text-center m-3">
-                    <span class="h3">Edit Hero</span>
+                    <span class="h3">Add Power</span>
                 </div>
                 <div class="col-7 text-center m-3">
-                    <form action="editHero" method="POST">
-                        <input type="hidden" name="id" th:value="${hero.id}"/>
+                    <form action="addPower" method="POST">
                         <div class="form-group row">
                             <label for="name" class="col-3 col-form-label">
                                 Name
@@ -60,44 +59,12 @@
                                     name="name"
                                     id="name"
                                     class="form-control"
-                                    th:value="${hero.name}"
-                                />
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="description" class="col-3 col-form-label">
-                                Description
-                            </label>
-                            <div class="col-9">
-                                <input
-                                    type="text"
-                                    autocomplete="off"
-                                    name="description"
-                                    id="description"
-                                    class="form-control"
-                                    th:value="${hero.description}"
-                                />
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="powerId" class="col-3 col-form-label">
-                                Power ID
-                            </label>
-                            <div class="col-9">
-                                <input
-                                    type="number"
-                                    autocomplete="off"
-                                    step="1"
-                                    min="0"
-                                    name="powerId"
-                                    id="powerId"
-                                    class="form-control"
-                                    th:value="${hero.superPowerId}"
+                                    placeholder="Name"
                                 />
                             </div>
                         </div>
                         <button type="submit" class="btn btn-primary">
-                            Update Hero
+                            Create Power
                         </button>
                     </form>
                 </div>
