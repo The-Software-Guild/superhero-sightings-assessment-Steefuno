@@ -27,11 +27,6 @@
                     <p th:each="notification: ${notifications}" th:text="${notification}"/>
                 </div>
             </div>
-            <div class="row m-4" th:if="${(notifications != null) && (notifications.length > 0)}">
-                <div class="col text-left border border-dark">
-                    <p th:each="notification: ${notifications}" th:text="${notification}"/>
-                </div>
-            </div>
             <div class="row m-4 border border-dark">
                 <div class="col text-center m-3">
                     <a href="getHeroes" class="btn btn-outline-primary btn-lg">Heroes</a>

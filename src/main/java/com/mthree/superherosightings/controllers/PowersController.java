@@ -12,7 +12,7 @@ import com.mthree.superherosightings.services.SuperheroDataService;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,13 +47,21 @@ public class PowersController {
      * Gets the data to display on the getPowers page
      * @param id the power's id
      * @param model the page's model
+     * @param redirectAttributes model to insert redirect data into
      * @return the getPower page
      */
     @GetMapping("getPower")
-    public String displayPower(Integer id, Model model) {
+    public String displayPower(Integer id, Model model, RedirectAttributes redirectAttributes) {
         Power power;
         
-        power = superheroDataService.getPower(id);
+        try {
+            power = superheroDataService.getPower(id);
+        } catch (DataAccessException e) {
+            redirectAttributes.addFlashAttribute("notifications", new String[]{
+                "Failed to find power: Make sure the ID is valid."
+            });
+            return "redirect:/getPowers";
+        }
         model.addAttribute("power", power);
         
         return "getPower";
@@ -91,13 +99,21 @@ public class PowersController {
      * Gets the data to display on the editPower page
      * @param id the power's id
      * @param model the power's model
+     * @param redirectAttributes model to insert redirect data into
      * @return 
      */
     @GetMapping("editPower")
-    public String displayEditPower(Integer id, Model model) {
+    public String displayEditPower(Integer id, Model model, RedirectAttributes redirectAttributes) {
         Power power;
         
-        power = superheroDataService.getPower(id);
+        try {
+            power = superheroDataService.getPower(id);
+        } catch (DataAccessException e) {
+            redirectAttributes.addFlashAttribute("notifications", new String[]{
+                "Failed to find power: Make sure the ID is valid."
+            });
+            return "redirect:/getPowers";
+        }
         model.addAttribute("power", power);
         
         return "editPower";
@@ -106,15 +122,23 @@ public class PowersController {
     /**
      * Receives the data to edit the power and sends it to the data service
      * @param request the data to add to the power
+     * @param redirectAttributes model to add redirect data into
      * @return a redirect to the power's info page
      */
     @PostMapping("editPower")
-    public String editPower(HttpServletRequest request) {
+    public String editPower(HttpServletRequest request, RedirectAttributes redirectAttributes) {
         String name;
         int id;
         Power power;
         
-        id = Integer.parseInt(request.getParameter("id"));
+        try {
+            id = Integer.parseInt(request.getParameter("id"));
+        } catch (NumberFormatException e) {
+            redirectAttributes.addFlashAttribute("notifications", new String[]{
+                "Failed to edit power: Invalid ID."
+            });
+            return "redirect:/getPowers";
+        }
         name = request.getParameter("name");
         
         power = new Power(id, name);
@@ -132,7 +156,7 @@ public class PowersController {
     public String deletePower(Integer id, RedirectAttributes redirectAttributes) {
         try {
             superheroDataService.deletePower(id);
-        } catch (DataIntegrityViolationException e) {
+        } catch (DataAccessException e) {
             redirectAttributes.addFlashAttribute("notifications", new String[]{
                 "Failed to delete power: Power cannot delete with existing heroes."
             });
